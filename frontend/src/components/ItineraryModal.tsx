@@ -94,15 +94,19 @@ export default function ItineraryModal({ isOpen, onClose, trip }: ItineraryModal
 
               {/* Itinerary */}
               <div>
-                <h4 className="flex items-center gap-2 font-semibold text-blue-700 mb-3 text-sm">
-                  <Info size={16} /> Itinerary
-                </h4>
-                <div className="relative border-l-2 border-blue-200 pl-4 space-y-4">
+                <h4 className="flex items-center gap-2 font-semibold text-[#c78e44] mb-3 text-sm">
+  <Info size={16} /> Itinerary
+</h4>
+
+                <div className="relative pl-4 space-y-4" style={{ borderLeft: '2px solid #c78e44' }}>
+
                   {trip.details.map((d, idx) => (
                     <div key={idx} className="relative">
-                      <div className="absolute -left-2 top-1 w-3 h-3 rounded-full bg-blue-600 border-2 border-white shadow-md" />
+                   <div className="absolute -left-2 top-1 w-3 h-3 rounded-full border-2 border-white shadow-md" style={{ backgroundColor: '#c78e44' }} />
+
                       <div className="flex items-start gap-2">
-                        <Calendar className="text-blue-500 mt-0.5" size={14} />
+                       <Calendar className="mt-0.5 text-[#c78e44]" size={14} />
+
                         <p className="text-gray-700 text-xs leading-relaxed">{d}</p>
                       </div>
                     </div>

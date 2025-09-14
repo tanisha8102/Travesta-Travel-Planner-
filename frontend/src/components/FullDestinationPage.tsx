@@ -3,7 +3,8 @@ import { destinations } from "../data/destinations.ts"; // Correct named import
 
 export default function FullDestinationPage() {
   return (
-    <section className="px-4 py-12 bg-gradient-to-b from-white to-blue-50 pt-40">
+    <section className="px-4 py-12 pt-40 ">
+
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="flex items-center justify-between mb-10">

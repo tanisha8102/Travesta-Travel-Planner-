@@ -4,6 +4,8 @@ import './index.css'
 import Home from "./pages/Home";
 import TripPage from "./pages/TripPage"; // ✅ import TripPage
 import FullDestinationPage from "./components/FullDestinationPage";
+import About from "./pages/About";
+import ContactPage from "./pages/Contact";
 
 // import Login from "./pages/Login";
 // import Register from "./pages/Register";
@@ -22,6 +24,8 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/trip" element={<TripPage />} /> {/* ✅ Trip Page route */}
+            <Route path="/about" element={<About />} />
+            <Route path="/contact" element={<ContactPage />} />
             {/* <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/dashboard" element={<Dashboard />} />

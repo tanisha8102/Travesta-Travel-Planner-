@@ -1,5 +1,8 @@
+"use client";
 import { Calendar, DollarSign } from "lucide-react";
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
+import type { Variants } from "framer-motion";
 
 const destinations = [
   {
@@ -8,7 +11,7 @@ const destinations = [
     desc: "Cherry blossoms in full bloom this week!",
     price: "$850 – $1200",
     date: "Now – Apr 5",
-    img: "https://images.unsplash.com/photo-1549693578-d683be217e58", // Replace with actual
+    img: "https://images.unsplash.com/photo-1549693578-d683be217e58",
   },
   {
     country: "Indonesia",
@@ -36,30 +39,73 @@ const destinations = [
   },
 ];
 
+// Variants
+const container: Variants = {
+  hidden: { opacity: 0, y: 40 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      staggerChildren: 0.25,
+      duration: 0.6,
+      ease: "easeOut",
+    },
+  },
+};
+
+const card: Variants = {
+  hidden: { opacity: 0, scale: 0.9 },
+  show: {
+    opacity: 1,
+    scale: 1,
+    transition: { duration: 0.5, ease: "easeOut" },
+  },
+};
+
 export default function DestinationSection() {
   return (
-    <section className="px-3 pt-0 pb-12 bg-gradient-to-b from-white to-blue-50">
-
+    <motion.section
+      className="px-3 pt-0 pb-12 bg-gradient-to-b from-white to-blue-50"
+      initial="hidden"
+      whileInView="show"
+      viewport={{ once: true, amount: 0.2 }}
+      variants={container}
+    >
       <div className="max-w-6xl mx-auto">
         {/* Header */}
-        <div className="flex items-center justify-between mb-8">
-  <h2 className="text-2xl font-semibold text-gray-900">
-    Where you should go next
-  </h2>
-  <Link
-    to={`/destination`}
-    className="text-blue-600 hover:underline font-medium"
-  >
-    See more
-  </Link>
-</div>
+        <motion.div
+          className="flex items-center justify-between mb-8"
+          variants={card}
+        >
+          <h2 className="text-2xl font-semibold text-gray-900">
+            Where you should go next
+          </h2>
+          <Link
+            to={`/destination`}
+            className="font-medium transition"
+            style={{ color: "#c78e44" }}
+            onMouseEnter={(e) =>
+              (e.currentTarget.style.textDecoration = "underline")
+            }
+            onMouseLeave={(e) =>
+              (e.currentTarget.style.textDecoration = "none")
+            }
+          >
+            See more
+          </Link>
+        </motion.div>
 
         {/* Cards */}
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <motion.div
+          className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4"
+          variants={container}
+        >
           {destinations.map((dest, idx) => (
-            <div
+            <motion.div
               key={idx}
               className="relative rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-shadow"
+              variants={card}
+              whileHover={{ scale: 1.05, y: -5 }}
             >
               {/* Background Image */}
               <img
@@ -84,12 +130,10 @@ export default function DestinationSection() {
                   </p>
                 </div>
               </div>
-            </div>
+            </motion.div>
           ))}
-        </div>
-
-      
+        </motion.div>
       </div>
-    </section>
+    </motion.section>
   );
 }

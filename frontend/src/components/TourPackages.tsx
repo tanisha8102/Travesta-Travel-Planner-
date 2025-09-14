@@ -99,7 +99,8 @@ const handleNextDesktop = () => {
           Our Tour Package <span className="text-gray-800">Ensures A Seamless</span>
           <br />
           <span className="text-gray-800">And Memorable</span>{" "}
-          <span className="text-blue-600">Adventure.</span>
+        <span className="text-[#c78e44]">Adventure.</span>
+
         </h2>
 
         {/* Category buttons */}

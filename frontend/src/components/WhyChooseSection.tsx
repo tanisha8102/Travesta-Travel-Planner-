@@ -40,21 +40,27 @@ export default function WhyChooseSection() {
         </div>
 
         {/* Right Side Text */}
-        <div>
-          <h2 className="text-3xl font-bold text-gray-900 mb-4">
-            Why Choose <span className="font-serif italic text-blue-600">Travesta</span>
-          </h2>
-          <p className="text-gray-600 leading-relaxed mb-6">
-            Tourink has cooperated with countries that provide more than 600 beautiful 
-            places for you to enjoy and relax your free time from the hustle and bustle of life. 
-            Don’t worry, you won’t get lost because Tourink also provides 100+ professional tour guides. 
-            Our 5k+ customers were satisfied with our services. So what are you waiting for? 
-            Let’s plan your holiday with us!
-          </p>
-          <button className="px-6 py-3 bg-blue-600 text-white rounded-xl shadow hover:bg-blue-700 transition">
-            Get Started
-          </button>
-        </div>
+       <div>
+  <h2 className="text-3xl font-bold text-gray-900 mb-4">
+    Why Choose <span className="font-serif italic" style={{ color: '#c78e44' }}>Travesta</span>
+  </h2>
+  <p className="text-gray-600 leading-relaxed mb-6">
+    Tourink has cooperated with countries that provide more than 600 beautiful 
+    places for you to enjoy and relax your free time from the hustle and bustle of life. 
+    Don’t worry, you won’t get lost because Tourink also provides 100+ professional tour guides. 
+    Our 5k+ customers were satisfied with our services. So what are you waiting for? 
+    Let’s plan your holiday with us!
+  </p>
+  <button
+    className="px-6 py-3 text-white rounded-xl shadow transition"
+    style={{ backgroundColor: '#c78e44' }}
+    onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#b3783b')}
+    onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '#c78e44')}
+  >
+    Get Started
+  </button>
+</div>
+
       </div>
     </section>
   );

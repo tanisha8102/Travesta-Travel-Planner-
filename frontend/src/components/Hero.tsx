@@ -21,7 +21,10 @@ export default function Hero() {
       {/* Heading */}
       <h1 className="text-4xl md:text-4xl font-bold text-gray-900 leading-snug max-w-2xl mx-auto font-sans">
         Tell us your{" "}
-        <span className="font-serif italic text-blue-600">Travel Plan</span> <br />
+       <span className="font-serif italic" style={{ color: '#c78e44' }}>
+  Travel Plan
+</span><br />
+
         in one sentence
       </h1>
 
@@ -34,12 +37,16 @@ export default function Hero() {
           placeholder="Weekend getaway for two in Bali on a budget..."
           className="flex-grow outline-none px-2 text-gray-700"
         />
-        <button
-          onClick={handleSubmit}
-          className="bg-blue-600 text-white p-2 rounded-full hover:bg-blue-700 transition"
-        >
-          <Send size={20} />
-        </button>
+       <button
+  onClick={handleSubmit}
+  className="text-white p-2 rounded-full transition"
+  style={{ backgroundColor: '#c78e44' }}
+  onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#b3783b')}
+  onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '#c78e44')}
+>
+  <Send size={20} />
+</button>
+
       </div>
 
       {/* Suggested Tags */}
