@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import Hero from "../components/Hero";
 import DestinationSection from "../components/DestinationSection";
 import WhyChooseSection from "../components/WhyChooseSection";

@@ -48,7 +48,7 @@ export default function TravelPackages() {
   const [mobileIndex, setMobileIndex] = useState(0);
   const [desktopIndex, setDesktopIndex] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
-  const slideCount = categories.length;
+  // const slideCount = categories.length;
 
 
   useEffect(() => {

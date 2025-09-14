@@ -1,4 +1,3 @@
-import { Users, MapPin, Briefcase } from "lucide-react";
 import image from "../assets/image01.jpg"; // replace with your image
 
 export default function WhyChooseSection() {

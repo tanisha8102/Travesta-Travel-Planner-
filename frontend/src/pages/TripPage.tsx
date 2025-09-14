@@ -64,7 +64,7 @@ export default function TripPage() {
 
     if (query) {
       fetchImages(query);
-      const locationName = query.split("in ").pop() || query;
+      
 
       const generated: Itinerary[] = [
         {
