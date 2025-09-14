@@ -1,0 +1,173 @@
+// src/data/destinations.ts
+export interface Destination {
+  country: string;
+  city: string;
+  desc: string;
+  price: string;
+  date: string;
+  img: string;
+}
+
+export const destinations: Destination[] = [
+  {
+    country: "Japan",
+    city: "Kyoto",
+    desc: "Cherry blossoms in full bloom this week!",
+    price: "$850 – $1200",
+    date: "Now – Apr 5",
+    img: "https://images.unsplash.com/photo-1549692520-acc6669e2f0c?w=1600&auto=format&fit=crop&q=80",
+  },
+  {
+    country: "Indonesia",
+    city: "Ubud",
+    desc: "Relaxing jungle retreats and fresh mountain air.",
+    price: "$400 – $700",
+    date: "Apr – Sep",
+    img: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=1600&auto=format&fit=crop&q=80",
+  },
+  {
+    country: "New Zealand",
+    city: "Queenstown",
+    desc: "Adventure capital with clear skies this week.",
+    price: "$1300 – $1800",
+    date: "May – Aug",
+    img: "https://images.unsplash.com/photo-1502786129293-79981df4e689?w=1600&auto=format&fit=crop&q=80",
+  },
+  {
+    country: "France",
+    city: "Paris",
+    desc: "Perfect for a romantic long weekend getaway.",
+    price: "$1000 – $1500",
+    date: "Mar – Jun",
+    img: "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=1600&auto=format&fit=crop&q=80",
+  },
+  {
+    country: "Italy",
+    city: "Rome",
+    desc: "Historic landmarks and delicious cuisine.",
+    price: "$900 – $1400",
+    date: "Apr – Sep",
+    img: "https://images.unsplash.com/photo-1505761671935-60b3a7427bad?w=1600&auto=format&fit=crop&q=80",
+  },
+  {
+    country: "Australia",
+    city: "Sydney",
+    desc: "Beaches, Opera House, and stunning skyline views.",
+    price: "$1200 – $2000",
+    date: "May – Oct",
+    img: "https://images.unsplash.com/photo-1506973035872-a4ec16b8e8d9?w=1600&auto=format&fit=crop&q=80",
+  },
+  {
+    country: "Canada",
+    city: "Vancouver",
+    desc: "Nature meets city in this scenic destination.",
+    price: "$1100 – $1700",
+    date: "Jun – Sep",
+    img: "https://images.unsplash.com/photo-1506045412240-22980140a405?w=1600&auto=format&fit=crop&q=80",
+  },
+  {
+    country: "Thailand",
+    city: "Bangkok",
+    desc: "Vibrant streets, temples, and street food paradise.",
+    price: "$500 – $900",
+    date: "Nov – Mar",
+    img: "https://images.unsplash.com/photo-1630219694734-fe47ab76b15e?q=80&w=1052&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  },
+  {
+    country: "USA",
+    city: "New York City",
+    desc: "The city that never sleeps.",
+    price: "$1500 – $2500",
+    date: "Year-round",
+    img: "https://plus.unsplash.com/premium_photo-1661954654458-c673671d4a08?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  },
+  {
+    country: "United Kingdom",
+    city: "London",
+    desc: "Rich history, iconic landmarks, and vibrant culture.",
+    price: "$1300 – $2000",
+    date: "Mar – Oct",
+    img: "https://images.unsplash.com/photo-1505761671935-60b3a7427bad?w=1600&auto=format&fit=crop&q=80",
+  },
+  {
+    country: "United Arab Emirates",
+    city: "Dubai",
+    desc: "Modern architecture, luxury shopping, and desert adventures.",
+    price: "$1800 – $3000",
+    date: "Oct – Apr",
+    img: "https://images.unsplash.com/photo-1651467606797-e1c660cf3fda?q=80&w=1193&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  },
+{
+  country: "Spain",
+  city: "Barcelona",
+  desc: "Architectural wonders and Mediterranean beaches.",
+  price: "$1100 – $1800",
+  date: "May – Oct",
+  img: "https://images.unsplash.com/photo-1630219694734-fe47ab76b15e?q=80&w=1052&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+},
+  {
+    country: "Netherlands",
+    city: "Amsterdam",
+    desc: "Canals, tulips, and rich cultural heritage.",
+    price: "$1000 – $1600",
+    date: "Apr – Oct",
+    img: "https://images.unsplash.com/photo-1665762722664-7e8a243315f2?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  },
+  {
+    country: "Germany",
+    city: "Berlin",
+    desc: "A blend of history, art, and modern culture.",
+    price: "$900 – $1500",
+    date: "May – Sep",
+    img: "https://images.unsplash.com/photo-1665762722664-7e8a243315f2?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  },
+  {
+    country: "South Africa",
+    city: "Cape Town",
+    desc: "Stunning landscapes and vibrant city life.",
+    price: "$1200 – $2000",
+    date: "Nov – Mar",
+    img: "https://images.unsplash.com/photo-1501594907352-04cda38ebc29?w=1600&auto=format&fit=crop&q=80",
+  },
+  {
+    country: "Brazil",
+    city: "Rio de Janeiro",
+    desc: "Beaches, carnival, and iconic landmarks.",
+    price: "$1100 – $1800",
+    date: "Dec – Mar",
+    img: "https://images.unsplash.com/photo-1679957631642-94f406206544?q=80&w=1297&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  },
+  {
+    country: "Russia",
+    city: "Moscow",
+    desc: "Historic sites and vibrant nightlife.",
+    price: "$1300 – $2000",
+    date: "May – Sep",
+    img: "https://images.unsplash.com/photo-1505843513577-22bb7d21e455?w=1600&auto=format&fit=crop&q=80",
+  },
+  {
+    country: "South Korea",
+    city: "Seoul",
+    desc: "Modern city with rich traditions.",
+    price: "$1000 – $1600",
+    date: "Mar – Nov",
+    img: "https://images.unsplash.com/photo-1485186337913-a42c84d7ffcc?q=80&w=1172&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  },
+  {
+    country: "Singapore",
+    city: "Singapore",
+    desc: "City in a garden with futuristic architecture.",
+    price: "$1500 – $2500",
+    date: "Year-round",
+    img: "https://plus.unsplash.com/premium_photo-1697729432930-3f11644e9184?q=80&w=1169&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  },
+  {
+    country: "Hong Kong",
+    city: "Hong Kong",
+    desc: "Skyscrapers, harbor views, and vibrant culture.",
+    price: "$1200 – $2000",
+    date: "Oct – Apr",
+    img: "https://images.unsplash.com/photo-1662166604556-3dedb9e0b55d?q=80&w=678&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  },
+
+];
