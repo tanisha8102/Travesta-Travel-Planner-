@@ -65,7 +65,8 @@ const card: Variants = {
 export default function DestinationSection() {
   return (
     <motion.section
-      className="px-3 pt-0 pb-12 bg-gradient-to-b from-white to-blue-50"
+      className="px-3 pt-16 pb-12 bg-gradient-to-b from-white to-[#c78e44]/20"
+
       initial="hidden"
       whileInView="show"
       viewport={{ once: true, amount: 0.2 }}
