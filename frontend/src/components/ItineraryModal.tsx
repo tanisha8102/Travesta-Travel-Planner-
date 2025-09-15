@@ -28,18 +28,18 @@ export default function ItineraryModal({ isOpen, onClose, trip }: ItineraryModal
     <AnimatePresence>
       {isOpen && (
         <motion.div
-          className="fixed inset-0 flex justify-center items-start pt-12 bg-black/50"
+          className="fixed inset-0 flex items-center justify-center bg-black/50 z-50 p-4"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.4 }}
+          transition={{ duration: 0.3 }}
           onClick={onClose}
         >
           <motion.div
-            className="relative bg-white rounded-t-2xl rounded-b-2xl shadow-2xl w-full max-w-lg h-[85vh] flex flex-col overflow-hidden"
-            initial={{ y: "100%" }}
-            animate={{ y: 0 }}
-            exit={{ y: "100%" }}
+            className="relative bg-white w-full max-w-lg max-h-[90vh] rounded-2xl shadow-2xl flex flex-col overflow-hidden"
+            initial={{ scale: 0.9, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0.9, opacity: 0 }}
             transition={{ type: "spring", stiffness: 120, damping: 20 }}
             onClick={(e) => e.stopPropagation()}
           >
@@ -51,9 +51,9 @@ export default function ItineraryModal({ isOpen, onClose, trip }: ItineraryModal
               <X size={22} />
             </button>
 
-            {/* Sticky Image Header */}
+            {/* Header Image */}
             <div
-              className="h-48 bg-cover bg-center sticky top-0 z-0"
+              className="h-40 sm:h-48 bg-cover bg-center"
               style={{ backgroundImage: `url(${trip.imageUrl})` }}
             >
               <div className="h-full w-full bg-gradient-to-t from-black/40 via-black/10 to-transparent" />
@@ -63,7 +63,7 @@ export default function ItineraryModal({ isOpen, onClose, trip }: ItineraryModal
             <div className="flex-1 overflow-y-auto p-5 space-y-6 scrollbar-hide">
               {/* Title & Duration */}
               <div>
-                <h2 className="text-xl font-bold text-gray-900">{trip.title}</h2>
+                <h2 className="text-lg sm:text-xl font-bold text-gray-900">{trip.title}</h2>
                 <div className="flex items-center gap-2 text-gray-500 mt-1 text-sm">
                   <Clock size={16} /> {trip.duration}
                 </div>
@@ -95,18 +95,21 @@ export default function ItineraryModal({ isOpen, onClose, trip }: ItineraryModal
               {/* Itinerary */}
               <div>
                 <h4 className="flex items-center gap-2 font-semibold text-[#c78e44] mb-3 text-sm">
-  <Info size={16} /> Itinerary
-</h4>
+                  <Info size={16} /> Itinerary
+                </h4>
 
-                <div className="relative pl-4 space-y-4" style={{ borderLeft: '2px solid #c78e44' }}>
-
+                <div
+                  className="relative pl-4 space-y-4"
+                  style={{ borderLeft: "2px solid #c78e44" }}
+                >
                   {trip.details.map((d, idx) => (
                     <div key={idx} className="relative">
-                   <div className="absolute -left-2 top-1 w-3 h-3 rounded-full border-2 border-white shadow-md" style={{ backgroundColor: '#c78e44' }} />
-
+                      <div
+                        className="absolute -left-2 top-1 w-3 h-3 rounded-full border-2 border-white shadow-md"
+                        style={{ backgroundColor: "#c78e44" }}
+                      />
                       <div className="flex items-start gap-2">
-                       <Calendar className="mt-0.5 text-[#c78e44]" size={14} />
-
+                        <Calendar className="mt-0.5 text-[#c78e44]" size={14} />
                         <p className="text-gray-700 text-xs leading-relaxed">{d}</p>
                       </div>
                     </div>

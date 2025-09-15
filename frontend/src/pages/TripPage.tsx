@@ -17,21 +17,38 @@ interface Itinerary {
   imageUrl: string;
 }
 
+// ✅ Extract meaningful destination/activity from query
+const extractLocation = (query: string): string => {
+  const cleaned = query
+    .replace(/\d+(\s*days?)?/gi, "") // remove "5 days"
+    .replace(
+      /\b(trip|tour|vacation|travel|want|please|show|me|plan|to|in|for|a|an|the|i)\b/gi,
+      ""
+    ) // remove filler words
+    .trim();
+
+  // Keep last 2 words (to handle "New York", "South Korea")
+  const words = cleaned.split(" ").filter(Boolean);
+  if (words.length >= 2) {
+    return `${words[words.length - 2]} ${words[words.length - 1]}`;
+  }
+  return words.length ? words[words.length - 1] : query;
+};
+
+// ✅ Convert to Title Case
+const toTitleCase = (str: string) =>
+  str.replace(/\w\S*/g, (txt) => txt.charAt(0).toUpperCase() + txt.substring(1).toLowerCase());
+
 export default function TripPage() {
   const location = useLocation();
   const params = new URLSearchParams(location.search);
-  const query = params.get("query") || "Your Trip";
+  const rawQuery = params.get("query") || "Your Trip";
+  const locationName = extractLocation(rawQuery);
 
   const [itinerary, setItinerary] = useState<Itinerary[]>([]);
   const [selectedTrip, setSelectedTrip] = useState<Itinerary | null>(null);
   const [heroImage, setHeroImage] = useState<string>("");
-  const [loading, setLoading] = useState(true); // NEW state
-
-  const toTitleCase = (str: string) =>
-  str.replace(/\w\S*/g, (txt) =>
-    txt.charAt(0).toUpperCase() + txt.substring(1).toLowerCase()
-  );
-
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchImages = async (searchQuery: string) => {
@@ -46,15 +63,15 @@ export default function TripPage() {
         if (data?.results?.length > 0) {
           const fullUrl = `${data.results[0].urls.full}&w=1600&fit=crop&q=80`;
 
-          // Preload and only render once ready
+          // Preload before showing
           const img = new Image();
           img.src = fullUrl;
           img.onload = () => {
             setHeroImage(fullUrl);
-            setLoading(false); // stop loader
+            setLoading(false);
           };
         } else {
-          setLoading(false); // no image but stop waiting
+          setLoading(false);
         }
       } catch (error) {
         console.error("Error fetching image:", error);
@@ -62,10 +79,10 @@ export default function TripPage() {
       }
     };
 
-    if (query) {
-      fetchImages(query);
-      
+    if (locationName) {
+      fetchImages(locationName);
 
+      // Mock itineraries
       const generated: Itinerary[] = [
         {
           days: 2,
@@ -80,9 +97,6 @@ export default function TripPage() {
             "Day 2: Explore main attractions & sunset beach view",
           ],
           imageUrl: `src/assets/tour3.jpg`,
-          // imageUrl: `https://source.unsplash.com/800x600/?${encodeURIComponent(
-          //   locationName
-          // )}&${Math.random()}`,
         },
         {
           days: 4,
@@ -99,9 +113,6 @@ export default function TripPage() {
             "Day 4: Shopping + Relax + Departure",
           ],
           imageUrl: `src/assets/trek4.jpg`,
-          // imageUrl: `https://source.unsplash.com/800x600/?adventure,${encodeURIComponent(
-          //   locationName
-          // )}&${Math.random()}`,
         },
         {
           days: 3,
@@ -116,31 +127,28 @@ export default function TripPage() {
             "Day 2: Explore historic sites",
             "Day 3: Relax + Departure",
           ],
-          imageUrl: `src/assets/sunrise1.jpg`,                 
-           // imageUrl: `https://source.unsplash.com/800x600/?adventure,${encodeURIComponent(
-          //   locationName
-          // )}&${Math.random()}`,
+          imageUrl: `src/assets/sunrise1.jpg`,
         },
       ];
 
       setItinerary(generated);
     }
-  }, [query]);
+  }, [locationName]);
 
-  // If still loading, block everything
-if (loading) {
+  // Loading screen
+  if (loading) {
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-blue-100 to-blue-200">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-[#fdf6ef] to-[#f9e9d7]">
       {/* Spinner */}
-      <div className="w-16 h-16 border-4 border-blue-500 border-dashed rounded-full animate-spin"></div>
+      <div className="w-16 h-16 border-4 border-[#c78e44] border-dashed rounded-full animate-spin"></div>
 
       {/* Animated Text */}
-      <p className="mt-6 text-gray-700 text-xl font-semibold animate-pulse">
+      <p className="mt-6 text-[#c78e44] text-xl font-semibold animate-pulse">
         Planning your trip...
       </p>
 
       {/* Subtext */}
-      <p className="mt-2 text-gray-500 text-sm">
+      <p className="mt-2 text-gray-600 text-sm">
         Finding the best views and experiences 🌍
       </p>
     </div>
@@ -150,7 +158,7 @@ if (loading) {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Hero */}
+      {/* Hero Section */}
       <div
         className="h-72 md:h-[28rem] bg-cover bg-center flex items-center justify-center relative"
         style={{
@@ -158,11 +166,9 @@ if (loading) {
         }}
       >
         <div className="absolute inset-0 bg-black/50" />
-<h1 className="relative text-3xl md:text-5xl font-bold text-white px-6 py-3 rounded-xl backdrop-sm font-['Raleway'] tracking-wide drop-shadow-lg">
-  {toTitleCase(query)}
-</h1>
-
-
+        <h1 className="relative text-3xl md:text-5xl font-bold text-white px-6 py-3 rounded-xl backdrop-sm font-['Raleway'] tracking-wide drop-shadow-lg">
+          {toTitleCase(locationName)}
+        </h1>
       </div>
 
       {/* Itinerary Cards */}
@@ -176,17 +182,12 @@ if (loading) {
               className="bg-white rounded-xl shadow-md hover:shadow-lg transition overflow-hidden cursor-pointer relative"
               onClick={() => setSelectedTrip(trip)}
             >
-              {/* Image */}
               <div
                 className="h-40 bg-cover bg-center"
                 style={{ backgroundImage: `url(${trip.imageUrl})` }}
               ></div>
-
-              {/* Card Overlap Content */}
               <div className="p-5 -mt-6 relative bg-white rounded-t-2xl shadow-md">
-                <h3 className="text-lg font-bold text-gray-900 mb-2">
-                  {trip.title}
-                </h3>
+                <h3 className="text-lg font-bold text-gray-900 mb-2">{trip.title}</h3>
                 <div className="flex items-center gap-2 text-sm text-gray-600 mb-2">
                   <Clock size={16} /> {trip.duration}
                 </div>
@@ -197,9 +198,7 @@ if (loading) {
                 </ul>
                 <div className="mt-3 text-gray-800 font-semibold">
                   From{" "}
-                  <span className="line-through text-gray-400 mr-2">
-                    {trip.oldPrice}
-                  </span>
+                  <span className="line-through text-gray-400 mr-2">{trip.oldPrice}</span>
                   <span className="text-lg text-green-600">{trip.price}</span>
                   <p className="text-green-500 text-sm">{trip.discount}</p>
                 </div>

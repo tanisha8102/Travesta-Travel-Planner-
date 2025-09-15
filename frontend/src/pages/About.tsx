@@ -14,21 +14,22 @@ export default function About() {
 
   return (
     <div className="w-full">
-      {/* Hero Section */}
-      <div
-        className="relative w-full h-[90vh] flex items-center justify-center text-center bg-cover bg-center"
-        style={{ backgroundImage: `url(${HeroImage})` }}
-      >
-        <div className="absolute inset-0 bg-black/40"></div>
-        <div className="relative text-white px-4 font-lato">
-          <h1
-            className="text-3xl md:text-5xl font-bold mb-3"
-            style={{ fontFamily: 'Playfair Display, serif' }}
-          >
-            Get Ready to Travel the World
-          </h1>
-        </div>
-      </div>
+   {/* Hero Section */}
+<div
+  className="relative w-full h-[70vh] sm:h-[80vh] md:h-[90vh] flex items-center justify-center text-center bg-cover bg-center"
+  style={{ backgroundImage: `url(${HeroImage})` }}
+>
+  <div className="absolute inset-0 bg-black/40"></div>
+  <div className="relative text-white px-4 font-lato">
+    <h1
+      className="text-2xl sm:text-3xl md:text-5xl font-bold mb-3"
+      style={{ fontFamily: 'Playfair Display, serif' }}
+    >
+      Get Ready to Travel the World
+    </h1>
+  </div>
+</div>
+
 
      {/* About Us Section */}
 <div className="max-w-6xl mx-auto py-16 px-6 flex flex-col md:flex-row items-center md:items-start gap-24">
@@ -110,76 +111,87 @@ export default function About() {
         <TrendingDestinations />
         <LatestNews />
 
-      {/* Video Section */}
-      <div className="relative w-full h-[60vh] flex items-center justify-center text-center overflow-hidden">
-        <video
-          className="absolute inset-0 w-full h-full object-cover"
-          src={mountVideo}
-          autoPlay
-          loop
-          muted
-        />
+    {/* Video Section */}
+<div className="relative w-full h-[40vh] sm:h-[50vh] md:h-[60vh] flex items-center justify-center text-center overflow-hidden">
+  <video
+    className="absolute inset-0 w-full h-full object-cover"
+    src={mountVideo}
+    autoPlay
+    loop
+    muted
+    playsInline // ✅ Important for mobile autoplay
+  />
 
-        <div className="absolute inset-10 pointer-events-none" style={{ borderColor: themeColor, borderWidth: '2px', borderStyle: 'solid' }}></div>
-        <div className="absolute inset-0 bg-black/50"></div>
+  {/* Border */}
+  <div
+    className="absolute inset-6 sm:inset-10 pointer-events-none"
+    style={{ borderColor: themeColor, borderWidth: '2px', borderStyle: 'solid' }}
+  ></div>
 
-        <div className="relative text-white px-4 font-serif">
-          <h1
-            className="text-3xl md:text-5xl mb-3"
-            style={{ fontFamily: 'Abril Fatface, serif' }}
-          >
-            Traveling Highlights
-          </h1>
-          <p className="text-lg md:text-xl text-white-400">
-            Your New Traveling Idea
-          </p>
-        </div>
+  {/* Overlay */}
+  <div className="absolute inset-0 bg-black/50"></div>
+
+  {/* Text Content */}
+  <div className="relative text-white px-2 sm:px-4 font-serif">
+    <h1
+      className="text-2xl sm:text-3xl md:text-5xl mb-2 sm:mb-3"
+      style={{ fontFamily: 'Abril Fatface, serif' }}
+    >
+      Traveling Highlights
+    </h1>
+    <p className="text-sm sm:text-lg md:text-xl text-white-400">
+      Your New Traveling Idea
+    </p>
+  </div>
+</div>
+
+{/* Info Boxes Section */}
+<div className="relative max-w-5xl mx-auto -mt-8 sm:-mt-10 px-2 sm:px-4">
+  <div
+    className="text-white shadow-lg flex flex-col md:flex-row justify-between items-center p-4 sm:p-6 md:p-8 gap-4 sm:gap-6 relative overflow-hidden"
+    style={{ backgroundColor: themeColor }}
+  >
+    {/* Gradient overlay */}
+    <div className="absolute inset-0 bg-gradient-to-r from-black/40 to-black/20 pointer-events-none"></div>
+
+    {/* Info Box 1 */}
+    <div className="relative z-10 flex items-start text-left flex-1 gap-2 sm:gap-4">
+      <FaMapMarkedAlt className="text-2xl sm:text-3xl md:text-4xl mt-1 flex-shrink-0" />
+      <div>
+        <h3 className="font-bold text-sm sm:text-md mb-1 sm:mb-2">700+ DESTINATIONS</h3>
+        <p className="text-xs sm:text-sm">
+          Far far away, behind the word mountains, far countries Vokalia.
+        </p>
       </div>
-
-      {/* Info Boxes Section */}
-      <div className="relative max-w-5xl mx-auto -mt-10 px-4">
-       <div
-  className="text-white shadow-lg flex flex-col md:flex-row justify-between items-center p-8 gap-6 relative overflow-hidden"
-  style={{ backgroundColor: themeColor }}
->
-  {/* Gradient overlay */}
-  <div className="absolute inset-0 bg-gradient-to-r from-black/40 to-black/20 pointer-events-none"></div>
-
-  {/* Content */}
-  <div className="relative z-10 flex items-start text-left flex-1 gap-4">
-    <FaMapMarkedAlt className="text-4xl mt-1 flex-shrink-0" />
-    <div>
-      <h3 className="font-bold text-md mb-2">700+ DESTINATIONS</h3>
-      <p className="text-sm">
-        Far far away, behind the word mountains, far countries Vokalia.
-      </p>
     </div>
-  </div>
 
-  <div className="relative z-10 flex items-start text-left flex-1 gap-4">
-    <FaTags className="text-4xl mt-1 flex-shrink-0" />
-    <div>
-      <h3 className="font-bold text-md mb-2">BEST PRICE GUARANTEE</h3>
-      <p className="text-sm">
-        Far far away, behind the word mountains, far countries Vokalia.
-      </p>
+    {/* Info Box 2 */}
+    <div className="relative z-10 flex items-start text-left flex-1 gap-2 sm:gap-4">
+      <FaTags className="text-2xl sm:text-3xl md:text-4xl mt-1 flex-shrink-0" />
+      <div>
+        <h3 className="font-bold text-sm sm:text-md mb-1 sm:mb-2">BEST PRICE GUARANTEE</h3>
+        <p className="text-xs sm:text-sm">
+          Far far away, behind the word mountains, far countries Vokalia.
+        </p>
+      </div>
     </div>
-  </div>
 
-  <div className="relative z-10 flex items-start text-left flex-1 gap-4">
-    <FaHeadset className="text-4xl mt-1 flex-shrink-0" />
-    <div>
-      <h3 className="font-bold text-md mb-2">TOP NOTCH SUPPORT</h3>
-      <p className="text-sm">
-        Far far away, behind the word mountains, far countries Vokalia.
-      </p>
+    {/* Info Box 3 */}
+    <div className="relative z-10 flex items-start text-left flex-1 gap-2 sm:gap-4">
+      <FaHeadset className="text-2xl sm:text-3xl md:text-4xl mt-1 flex-shrink-0" />
+      <div>
+        <h3 className="font-bold text-sm sm:text-md mb-1 sm:mb-2">TOP NOTCH SUPPORT</h3>
+        <p className="text-xs sm:text-sm">
+          Far far away, behind the word mountains, far countries Vokalia.
+        </p>
+      </div>
     </div>
   </div>
 </div>
 
 
        
-      </div>
+      
        <InstagramSection  />
         <TravelFooterSection />
 

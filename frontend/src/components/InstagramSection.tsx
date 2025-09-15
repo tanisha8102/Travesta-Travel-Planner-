@@ -17,36 +17,40 @@ const InstagramSection: React.FC = () => {
   const sliderImages = [...images, ...images];
 
   return (
-    <section className="bg-gray-50 py-10">
-      <div className="container mx-auto flex items-center gap-6 px-4 overflow-hidden">
+    <section className="bg-gray-50 py-6 sm:py-10">
+      <div className="container mx-auto flex items-center gap-4 sm:gap-6 px-4 overflow-hidden">
         {/* Instagram Icon */}
-        <div className="flex-shrink-0 flex items-center justify-center text-[10rem] text-[#f2d1a4]">
+        <div className="flex-shrink-0 flex items-center justify-center text-[3rem] sm:text-[6rem] md:text-[8rem] lg:text-[10rem] text-[#f2d1a4]">
           <FaInstagram />
         </div>
 
         {/* Text + Slider */}
-        <div className="flex-1">
+        <div className="flex-1 w-full">
           {/* Heading */}
-          <div className="mb-6">
-            <p className="text-sm text-yellow-600 font-medium">Instagram</p>
-            <h2 className="text-2xl font-bold text-gray-800">Travesta</h2>
+          <div className="mb-4 sm:mb-6">
+            <p className="text-xs sm:text-sm text-yellow-600 font-medium">
+              Instagram
+            </p>
+            <h2 className="text-lg sm:text-2xl md:text-3xl font-bold text-gray-800">
+              Travesta
+            </h2>
           </div>
 
           {/* Seamless Slider */}
           <div className="relative w-full overflow-hidden">
             <motion.div
-              className="flex gap-2"
-              animate={{ x: ["0%", "-50%"] }}   // 👈 shift only half (because we duplicated)
+              className="flex gap-2 sm:gap-3"
+              animate={{ x: ["0%", "-50%"] }}
               transition={{
                 repeat: Infinity,
-                duration: 40,  // 👈 slower & smoother
+                duration: 40,
                 ease: "linear",
               }}
             >
               {sliderImages.map((img, idx) => (
                 <div
                   key={idx}
-                  className="min-w-[150px] md:min-w-[200px] aspect-square overflow-hidden rounded-sm"
+                  className="min-w-[90px] sm:min-w-[140px] md:min-w-[200px] aspect-square overflow-hidden rounded-sm"
                 >
                   <img
                     src={img}

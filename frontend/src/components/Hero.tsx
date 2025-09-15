@@ -53,7 +53,7 @@ export default function Hero() {
       <div className="mt-6 flex flex-wrap gap-3 justify-center">
         {[
           "Romantic 3-day trip in Paris",
-          "I have 5 days in Japan",
+          "5 days in Goa",
           "I want a 7-day trip to New Zealand",
         ].map((tag) => (
           <button
