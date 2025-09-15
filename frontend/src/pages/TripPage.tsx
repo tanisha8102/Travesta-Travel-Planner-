@@ -4,8 +4,8 @@ import { Clock, Search } from "lucide-react";
 import ItineraryModal from "../components/ItineraryModal";
 import Groq from "groq-sdk";
 
-const UNSPLASH_ACCESS_KEY =
-  "Swz52pBLZgYIQ05a9ySrz3_UP9PXneG3oER2qtUKgiw"; // Replace with your Unsplash Access Key
+const PEXELS_API_KEY = import.meta.env.VITE_PEXELS_API_KEY as string;
+
 
 const groq = new Groq({
   apiKey: import.meta.env.VITE_GROQ_API_KEY,
@@ -66,24 +66,26 @@ export default function TripPage() {
 
   // Fetch Hero Image
   useEffect(() => {
-    const fetchHeroImage = async (searchQuery: string) => {
-      try {
-        const res = await fetch(
-          `https://api.unsplash.com/search/photos?query=${encodeURIComponent(
-            searchQuery
-          )}&client_id=${UNSPLASH_ACCESS_KEY}`
-        );
-        const data = await res.json();
-        if (data?.results?.length > 0) {
-          const url = `${data.results[0].urls.full}&w=1600&fit=crop&q=80`;
-          const img = new Image();
-          img.src = url;
-          img.onload = () => setHeroImage(url);
-        }
-      } catch (err) {
-        console.error("Error fetching hero image:", err);
+   const fetchHeroImage = async (searchQuery: string) => {
+  try {
+    const res = await fetch(
+      `https://api.pexels.com/v1/search?query=${encodeURIComponent(searchQuery)}&per_page=1`,
+      {
+        headers: { Authorization: PEXELS_API_KEY },
       }
-    };
+    );
+    const data = await res.json();
+    if (data?.photos?.length > 0) {
+      const url = data.photos[0].src.landscape;
+      const img = new Image();
+      img.src = url;
+      img.onload = () => setHeroImage(url);
+    }
+  } catch (err) {
+    console.error("Error fetching hero image:", err);
+  }
+};
+
     if (locationName) fetchHeroImage(locationName);
   }, [locationName]);
 
@@ -148,27 +150,31 @@ Each object must have:
           ];
         }
 
-        const tripsWithImages = await Promise.all(
-          trips.map(async (trip, i) => {
-            try {
-              const res = await fetch(
-                `https://api.unsplash.com/search/photos?query=${encodeURIComponent(
-                  trip.title + " " + locationName
-                )}&client_id=${UNSPLASH_ACCESS_KEY}`
-              );
-              const data = await res.json();
-              return {
-                ...trip,
-                imageUrl:
-                  data.results?.[0]?.urls?.regular ||
-                  trip.imageUrl ||
-                  ["src/assets/tour3.jpg", "src/assets/trek4.jpg", "src/assets/sunrise1.jpg"][i % 3],
-              };
-            } catch {
-              return trip;
-            }
-          })
-        );
+const tripsWithImages = await Promise.all(
+  trips.map(async (trip, i) => {
+    try {
+      const res = await fetch(
+        `https://api.pexels.com/v1/search?query=${encodeURIComponent(
+          trip.title + " " + locationName
+        )}&per_page=1`,
+        {
+          headers: { Authorization: PEXELS_API_KEY },
+        }
+      );
+      const data = await res.json();
+      return {
+        ...trip,
+        imageUrl:
+          data.photos?.[0]?.src?.medium ||
+          trip.imageUrl ||
+          ["src/assets/tour3.jpg", "src/assets/trek4.jpg", "src/assets/sunrise1.jpg"][i % 3],
+      };
+    } catch {
+      return trip;
+    }
+  })
+);
+
 
         setItinerary(tripsWithImages);
       } catch (err) {
