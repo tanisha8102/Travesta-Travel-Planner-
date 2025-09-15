@@ -5,6 +5,7 @@ import TravelPackages from "../components/TourPackages";
 import Footer from "../components/Footer";
 import BenefitsSection from "../components/BenefitsSection";
 import TrendingDestinations from "../components/TrendingDestination";
+import TravelExperience from "../components/TravelExperience";
 
 
 export default function Home() {
@@ -34,6 +35,10 @@ export default function Home() {
       {/* Travel Packages */}
   
         <TravelPackages />
+
+      {/* Travel Experience Section */}
+     
+        <TravelExperience />
       
 
       {/* Footer */}

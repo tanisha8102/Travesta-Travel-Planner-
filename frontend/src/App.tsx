@@ -6,6 +6,7 @@ import TripPage from "./pages/TripPage"; // ✅ import TripPage
 import FullDestinationPage from "./components/FullDestinationPage";
 import About from "./pages/About";
 import ContactPage from "./pages/Contact";
+import ScrollToTop from "./components/ScrollToTop";
 
 // import Login from "./pages/Login";
 // import Register from "./pages/Register";
@@ -19,6 +20,7 @@ function App() {
   return (
     <Router>
       <div className="flex flex-col min-h-screen">
+         <ScrollToTop /> 
         <Navbar /> {/* Navbar always visible */}
         <main className="flex-grow">
           <Routes>

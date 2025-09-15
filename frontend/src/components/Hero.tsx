@@ -31,7 +31,7 @@ export default function Hero() {
 
   return (
     <motion.section
-      className="relative flex flex-col items-center justify-center min-h-[90vh] text-center px-3 pt-20 overflow-hidden"
+      className="relative flex flex-col items-center justify-center min-h-[100vh] text-center px-3 pt-20 overflow-hidden"
       initial="hidden"
       animate="visible"
       variants={staggerContainer}
