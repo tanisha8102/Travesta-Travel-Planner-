@@ -53,10 +53,10 @@ export default function ItineraryModal({ isOpen, onClose, trip }: ItineraryModal
 
             {/* Header Image */}
             <div
-              className="h-40 sm:h-48 bg-cover bg-center"
+              className="h-40 sm:h-48 bg-cover bg-center relative"
               style={{ backgroundImage: `url(${trip.imageUrl})` }}
             >
-              <div className="h-full w-full bg-gradient-to-t from-black/40 via-black/10 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/10 to-transparent" />
             </div>
 
             {/* Scrollable Content */}
@@ -87,31 +87,24 @@ export default function ItineraryModal({ isOpen, onClose, trip }: ItineraryModal
                   <span className="line-through text-gray-400 mr-2">{trip.oldPrice}</span>
                 )}
                 <span className="text-lg font-semibold text-green-600">{trip.price}</span>
-                {trip.discount && (
-                  <p className="text-green-500 text-xs mt-1">{trip.discount}</p>
-                )}
+                {trip.discount && <p className="text-green-500 text-xs mt-1">{trip.discount}</p>}
               </div>
 
-              {/* Itinerary */}
+              {/* Itinerary Details */}
               <div>
                 <h4 className="flex items-center gap-2 font-semibold text-[#c78e44] mb-3 text-sm">
                   <Info size={16} /> Itinerary
                 </h4>
 
-                <div
-                  className="relative pl-4 space-y-4"
-                  style={{ borderLeft: "2px solid #c78e44" }}
-                >
+                <div className="relative pl-4 space-y-4" style={{ borderLeft: "2px solid #c78e44" }}>
                   {trip.details.map((d, idx) => (
-                    <div key={idx} className="relative">
+                    <div key={idx} className="relative flex items-start gap-2">
                       <div
                         className="absolute -left-2 top-1 w-3 h-3 rounded-full border-2 border-white shadow-md"
                         style={{ backgroundColor: "#c78e44" }}
                       />
-                      <div className="flex items-start gap-2">
-                        <Calendar className="mt-0.5 text-[#c78e44]" size={14} />
-                        <p className="text-gray-700 text-xs leading-relaxed">{d}</p>
-                      </div>
+                      <Calendar className="mt-0.5 text-[#c78e44]" size={14} />
+                      <p className="text-gray-700 text-xs leading-relaxed">{d}</p>
                     </div>
                   ))}
                 </div>

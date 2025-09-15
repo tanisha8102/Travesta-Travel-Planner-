@@ -20,14 +20,27 @@ export default function About() {
   style={{ backgroundImage: `url(${HeroImage})` }}
 >
   <div className="absolute inset-0 bg-black/40"></div>
-  <div className="relative text-white px-4 font-lato">
-    <h1
-      className="text-2xl sm:text-3xl md:text-5xl font-bold mb-3"
-      style={{ fontFamily: 'Playfair Display, serif' }}
+ <div className="relative text-white px-4 font-lato">
+  <h1
+    className="text-2xl sm:text-3xl md:text-5xl font-bold mb-3"
+    style={{ fontFamily: 'Playfair Display, serif', lineHeight: '2' }}
+  >
+    Get Ready to <br />
+    <span
+      style={{
+        backgroundColor: themeColor,
+        padding: '0.75rem 1rem',
+        borderRadius: '0.25rem',
+      }}
     >
-      Get Ready to Travel the World
-    </h1>
-  </div>
+      Travel the World .
+    </span>
+  </h1>
+  <p className="mt-4 text-sm sm:text-sm md:text-md max-w-xl">
+    Explore new destinations, experience diverse cultures, and create memories that last a lifetime. Discover hidden gems, taste local cuisines, meet new people, and immerse yourself in unforgettable adventures around the globe.
+  </p>
+</div>
+
 </div>
 
 

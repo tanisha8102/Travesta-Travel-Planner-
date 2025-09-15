@@ -1,9 +1,16 @@
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { Clock } from "lucide-react";
+import { Clock, Search } from "lucide-react";
 import ItineraryModal from "../components/ItineraryModal";
+import Groq from "groq-sdk";
 
-const UNSPLASH_ACCESS_KEY = "Swz52pBLZgYIQ05a9ySrz3_UP9PXneG3oER2qtUKgiw"; // Replace with your Unsplash Access Key
+const UNSPLASH_ACCESS_KEY =
+  "Swz52pBLZgYIQ05a9ySrz3_UP9PXneG3oER2qtUKgiw"; // Replace with your Unsplash Access Key
+
+const groq = new Groq({
+  apiKey: import.meta.env.VITE_GROQ_API_KEY,
+  dangerouslyAllowBrowser: true, // ⚠️ dev only
+});
 
 interface Itinerary {
   days: number;
@@ -17,30 +24,28 @@ interface Itinerary {
   imageUrl: string;
 }
 
-// ✅ Extract meaningful destination/activity from query
+// Extract meaningful destination/activity from query
 const extractLocation = (query: string): string => {
   const cleaned = query
-    .replace(/\d+(\s*days?)?/gi, "") // remove "5 days"
+    .replace(/\d+(\s*days?)?/gi, "")
     .replace(
       /\b(trip|tour|vacation|travel|want|please|show|me|plan|to|in|for|a|an|the|i)\b/gi,
       ""
-    ) // remove filler words
+    )
     .trim();
-
-  // Keep last 2 words (to handle "New York", "South Korea")
   const words = cleaned.split(" ").filter(Boolean);
-  if (words.length >= 2) {
+  if (words.length >= 2)
     return `${words[words.length - 2]} ${words[words.length - 1]}`;
-  }
   return words.length ? words[words.length - 1] : query;
 };
 
-// ✅ Convert to Title Case
+// Convert to Title Case
 const toTitleCase = (str: string) =>
   str.replace(/\w\S*/g, (txt) => txt.charAt(0).toUpperCase() + txt.substring(1).toLowerCase());
 
 export default function TripPage() {
   const location = useLocation();
+  const navigate = useNavigate();
   const params = new URLSearchParams(location.search);
   const rawQuery = params.get("query") || "Your Trip";
   const locationName = extractLocation(rawQuery);
@@ -49,132 +54,189 @@ export default function TripPage() {
   const [selectedTrip, setSelectedTrip] = useState<Itinerary | null>(null);
   const [heroImage, setHeroImage] = useState<string>("");
   const [loading, setLoading] = useState(true);
+  const [searchValue, setSearchValue] = useState(rawQuery);
 
+  // Handle search submit
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchValue.trim()) {
+      navigate(`/trip?query=${encodeURIComponent(searchValue.trim())}`);
+    }
+  };
+
+  // Fetch Hero Image
   useEffect(() => {
-    const fetchImages = async (searchQuery: string) => {
+    const fetchHeroImage = async (searchQuery: string) => {
       try {
-        const response = await fetch(
+        const res = await fetch(
           `https://api.unsplash.com/search/photos?query=${encodeURIComponent(
             searchQuery
           )}&client_id=${UNSPLASH_ACCESS_KEY}`
         );
-        const data = await response.json();
-
+        const data = await res.json();
         if (data?.results?.length > 0) {
-          const fullUrl = `${data.results[0].urls.full}&w=1600&fit=crop&q=80`;
-
-          // Preload before showing
+          const url = `${data.results[0].urls.full}&w=1600&fit=crop&q=80`;
           const img = new Image();
-          img.src = fullUrl;
-          img.onload = () => {
-            setHeroImage(fullUrl);
-            setLoading(false);
-          };
-        } else {
-          setLoading(false);
+          img.src = url;
+          img.onload = () => setHeroImage(url);
         }
-      } catch (error) {
-        console.error("Error fetching image:", error);
+      } catch (err) {
+        console.error("Error fetching hero image:", err);
+      }
+    };
+    if (locationName) fetchHeroImage(locationName);
+  }, [locationName]);
+
+  // Fetch Itinerary
+  useEffect(() => {
+    const fetchItinerary = async () => {
+      setLoading(true);
+      try {
+        const response = await groq.chat.completions.create({
+          model: "meta-llama/llama-4-scout-17b-16e-instruct",
+          messages: [
+            {
+              role: "system",
+              content: `You are a travel planner.
+Return ONLY a valid JSON array of 2–3 trip package objects. 
+Do not include any extra text or explanation outside the JSON.
+Each object must have:
+- days (number),
+- title (string),
+- duration (string),
+- perks (array of strings),
+- price (string),
+- oldPrice (string, optional),
+- discount (string, optional),
+- details (array of strings for each day).`
+            },
+            {
+              role: "user",
+              content: `Generate trip packages for ${locationName}.`
+            },
+          ],
+          temperature: 0.7,
+          max_tokens: 800,
+        });
+
+        const text = response.choices[0]?.message?.content || "[]";
+        console.log("Groq raw response:", text);
+
+        let trips: Itinerary[] = [];
+        try {
+          const cleaned = text.trim().replace(/```json|```/g, "");
+          trips = JSON.parse(cleaned);
+        } catch (err) {
+          console.error("Error parsing Groq response:", err, text);
+        }
+
+        if (trips.length === 0) {
+          trips = [
+            {
+              days: 3,
+              title: "Sample Plan",
+              duration: "3 days",
+              perks: ["Guide", "Free Cancellation"],
+              price: "₹5,000",
+              details: [
+                "Day 1: Arrival & city tour",
+                "Day 2: Cultural highlights",
+                "Day 3: Shopping + Departure"
+              ],
+              imageUrl: "src/assets/tour3.jpg",
+            },
+          ];
+        }
+
+        const tripsWithImages = await Promise.all(
+          trips.map(async (trip, i) => {
+            try {
+              const res = await fetch(
+                `https://api.unsplash.com/search/photos?query=${encodeURIComponent(
+                  trip.title + " " + locationName
+                )}&client_id=${UNSPLASH_ACCESS_KEY}`
+              );
+              const data = await res.json();
+              return {
+                ...trip,
+                imageUrl:
+                  data.results?.[0]?.urls?.regular ||
+                  trip.imageUrl ||
+                  ["src/assets/tour3.jpg", "src/assets/trek4.jpg", "src/assets/sunrise1.jpg"][i % 3],
+              };
+            } catch {
+              return trip;
+            }
+          })
+        );
+
+        setItinerary(tripsWithImages);
+      } catch (err) {
+        console.error("Error fetching itinerary:", err);
+      } finally {
         setLoading(false);
       }
     };
 
-    if (locationName) {
-      fetchImages(locationName);
-
-      // Mock itineraries
-      const generated: Itinerary[] = [
-        {
-          days: 2,
-          title: "City Highlights Tour",
-          duration: "2 days",
-          perks: ["Free Cancellation", "Guided Tour"],
-          price: "₹5,126",
-          oldPrice: "₹5,282",
-          discount: "You save 2%",
-          details: [
-            "Day 1: Arrival, evening city walk, local dinner",
-            "Day 2: Explore main attractions & sunset beach view",
-          ],
-          imageUrl: `src/assets/tour3.jpg`,
-        },
-        {
-          days: 4,
-          title: "Adventure & Culture",
-          duration: "4 days",
-          perks: ["Instant Confirmation", "Adventure Trip"],
-          price: "₹6,758",
-          oldPrice: "₹7,384",
-          discount: "You save 8%",
-          details: [
-            "Day 1: Arrival & evening market",
-            "Day 2: Guided cultural city tour",
-            "Day 3: Adventure activity or day trip",
-            "Day 4: Shopping + Relax + Departure",
-          ],
-          imageUrl: `src/assets/trek4.jpg`,
-        },
-        {
-          days: 3,
-          title: "Cultural Escape",
-          duration: "3 days",
-          perks: ["See Museums", "Local Guide"],
-          price: "₹1,644",
-          oldPrice: "₹1,796",
-          discount: "You save 8%",
-          details: [
-            "Day 1: Museum tour & evening cruise",
-            "Day 2: Explore historic sites",
-            "Day 3: Relax + Departure",
-          ],
-          imageUrl: `src/assets/sunrise1.jpg`,
-        },
-      ];
-
-      setItinerary(generated);
-    }
+    if (locationName) fetchItinerary();
   }, [locationName]);
 
-  // Loading screen
+  // Loading UI
   if (loading) {
-  return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-[#fdf6ef] to-[#f9e9d7]">
-      {/* Spinner */}
-      <div className="w-16 h-16 border-4 border-[#c78e44] border-dashed rounded-full animate-spin"></div>
-
-      {/* Animated Text */}
-      <p className="mt-6 text-[#c78e44] text-xl font-semibold animate-pulse">
-        Planning your trip...
-      </p>
-
-      {/* Subtext */}
-      <p className="mt-2 text-gray-600 text-sm">
-        Finding the best views and experiences 🌍
-      </p>
-    </div>
-  );
-}
-
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-[#fdf6ef] to-[#f9e9d7]">
+        <div className="w-16 h-16 border-4 border-[#c78e44] border-dashed rounded-full animate-spin"></div>
+        <p className="mt-6 text-[#c78e44] text-xl font-semibold animate-pulse">
+          Planning your trip...
+        </p>
+        <p className="mt-2 text-gray-600 text-sm">
+          Finding the best views and experiences 🌍
+        </p>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Hero Section */}
-      <div
-        className="h-72 md:h-[28rem] bg-cover bg-center flex items-center justify-center relative"
-        style={{
-          backgroundImage: `url(${heroImage})`,
-        }}
-      >
-        <div className="absolute inset-0 bg-black/50" />
-        <h1 className="relative text-3xl md:text-5xl font-bold text-white px-6 py-3 rounded-xl backdrop-sm font-['Raleway'] tracking-wide drop-shadow-lg">
-          {toTitleCase(locationName)}
-        </h1>
-      </div>
+      {/* Hero */}
+      {/* Hero */}
+<div
+  className="h-72 md:h-[28rem] bg-cover bg-center flex flex-col items-center justify-center relative px-4"
+  style={{ backgroundImage: `url(${heroImage})` }}
+>
+  <div className="absolute inset-0 bg-black/50" />
 
-      {/* Itinerary Cards */}
+  {/* Search Bar (responsive: smaller & lower on small screens, pulled up on md+) */}
+  <form
+    onSubmit={handleSearch}
+    className="relative z-10 mx-auto mt-6 md:-mt-10 w-[90%] sm:w-[80%] md:w-[60%] lg:w-[50%] flex items-center bg-white rounded-full shadow-md overflow-hidden"
+  >
+    <input
+      aria-label="Search destination"
+      type="text"
+      placeholder="Search for a destination..."
+      value={searchValue}
+      onChange={(e) => setSearchValue(e.target.value)}
+      className="flex-1 px-4 py-2 text-sm sm:px-5 sm:py-3 text-gray-700 focus:outline-none rounded-l-full"
+    />
+    <button
+      type="submit"
+      className="px-3 sm:px-4 flex items-center justify-center rounded-r-full"
+    >
+      <Search size={18} className="text-gray-500" />
+    </button>
+  </form>
+
+  {/* Location Title */}
+  <h1 className="relative z-10 mt-6 text-3xl md:text-5xl font-bold text-white px-6 py-3 rounded-xl backdrop-sm font-['Raleway'] tracking-wide drop-shadow-lg">
+    {toTitleCase(locationName)}
+  </h1>
+</div>
+
+
+      {/* Itineraries */}
       <div className="max-w-6xl mx-auto px-4 py-12">
         <h2 className="text-2xl font-bold text-gray-900 mb-8">Itinerary Options</h2>
-
         <div className="grid md:grid-cols-3 gap-7">
           {itinerary.map((trip, i) => (
             <div
@@ -185,8 +247,8 @@ export default function TripPage() {
               <div
                 className="h-40 bg-cover bg-center"
                 style={{ backgroundImage: `url(${trip.imageUrl})` }}
-              ></div>
-              <div className="p-5 -mt-6 relative bg-white rounded-t-2xl shadow-md">
+              />
+              <div className="p-5 -mt-6 relative bg-white rounded-t-2xl">
                 <h3 className="text-lg font-bold text-gray-900 mb-2">{trip.title}</h3>
                 <div className="flex items-center gap-2 text-sm text-gray-600 mb-2">
                   <Clock size={16} /> {trip.duration}
@@ -198,9 +260,13 @@ export default function TripPage() {
                 </ul>
                 <div className="mt-3 text-gray-800 font-semibold">
                   From{" "}
-                  <span className="line-through text-gray-400 mr-2">{trip.oldPrice}</span>
+                  {trip.oldPrice && (
+                    <span className="line-through text-gray-400 mr-2">{trip.oldPrice}</span>
+                  )}
                   <span className="text-lg text-green-600">{trip.price}</span>
-                  <p className="text-green-500 text-sm">{trip.discount}</p>
+                  {trip.discount && (
+                    <p className="text-green-500 text-sm">{trip.discount}</p>
+                  )}
                 </div>
               </div>
             </div>
