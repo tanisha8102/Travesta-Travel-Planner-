@@ -1,5 +1,5 @@
 import { X, Info, Clock, Calendar, Heart } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect} from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 interface ItineraryModalProps {
