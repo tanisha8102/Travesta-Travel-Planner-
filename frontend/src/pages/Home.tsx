@@ -6,6 +6,7 @@ import Footer from "../components/Footer";
 import BenefitsSection from "../components/BenefitsSection";
 import TrendingDestinations from "../components/TrendingDestination";
 import TravelExperience from "../components/TravelExperience";
+import ClientFeedback from "../components/Feedback";
 
 
 export default function Home() {
@@ -25,11 +26,17 @@ export default function Home() {
      
         <WhyChooseSection />
 
+        {/* Client Feedback Section */}
+     
+        <ClientFeedback />
+
       {/* Trending Destinations */}
         <TrendingDestinations />
       {/* Benefits Section */}
      
         <BenefitsSection />
+
+      
      
 
       {/* Travel Packages */}

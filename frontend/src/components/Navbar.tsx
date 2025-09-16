@@ -1,12 +1,17 @@
-import { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
-import { Menu, X, LogIn, UserPlus } from "lucide-react";
+import { useState, useEffect, useRef } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Menu, X, LogIn, UserPlus, User } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import logo from "../assets/logo.png";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [user, setUser] = useState<{ name?: string } | null>(null);
+  const [profileOpen, setProfileOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
+  const dropdownRef = useRef<HTMLDivElement | null>(null);
 
   const navLinks = [
     { name: "Home", path: "/" },
@@ -14,19 +19,39 @@ export default function Navbar() {
     { name: "Contact", path: "/contact" },
   ];
 
-  // Detect scroll
+  // Load user on mount
   useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 50) {
-        setScrolled(true);
-      } else {
-        setScrolled(false);
-      }
-    };
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) setUser(JSON.parse(storedUser));
+  }, []);
 
+  // Scroll detection
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 50);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setProfileOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    setUser(null);
+    navigate("/login");
+  };
 
   return (
     <nav
@@ -37,11 +62,7 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto flex justify-between items-center px-6 py-4">
         {/* Logo */}
         <Link to="/">
-          <img
-            src={logo}
-            alt="Travesta Logo"
-            className="h-16 w-auto"
-          />
+          <img src={logo} alt="Travesta Logo" className="h-16 w-auto" />
         </Link>
 
         {/* Desktop Menu */}
@@ -54,10 +75,7 @@ export default function Navbar() {
                 scrolled ? "text-gray-800" : "text-white"
               }`}
               style={{
-                color:
-                  location.pathname === link.path
-                    ? "#c78e44"
-                    : undefined,
+                color: location.pathname === link.path ? "#c78e44" : undefined,
               }}
             >
               {link.name}
@@ -67,57 +85,160 @@ export default function Navbar() {
             </Link>
           ))}
 
-          <Link
-            to="/login"
-            className={`flex items-center gap-1 text-sm font-medium transition-colors ${
-              scrolled ? "text-gray-800" : "text-white"
-            }`}
-          >
-            <LogIn size={16} /> Login
-          </Link>
+          {user ? (
+            <div className="relative" ref={dropdownRef}>
+              <button
+                onClick={() => setProfileOpen(!profileOpen)}
+                className={`flex items-center gap-1 text-sm font-medium transition-colors ${
+                  scrolled ? "text-gray-800" : "text-white"
+                }`}
+              >
+                <User size={18} /> Profile
+              </button>
 
-          <Link
-            to="/register"
-            className={`flex items-center gap-1 text-sm font-medium transition-colors ${
-              scrolled ? "text-gray-800" : "text-white"
-            }`}
-          >
-            <UserPlus size={16} /> Sign Up
-          </Link>
+              <AnimatePresence>
+                {profileOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ duration: 0.2 }}
+                    className="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-lg py-2 z-50"
+                  >
+      
+                    <Link
+                      to="/favourites"
+                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      onClick={() => setProfileOpen(false)}
+                    >
+                      Favourites
+                    </Link>
+                    <Link
+                      to="/plans"
+                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      onClick={() => setProfileOpen(false)}
+                    >
+                      Plans
+                    </Link>
+                    <Link
+                      to="/bookings"
+                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      onClick={() => setProfileOpen(false)}
+                    >
+                      Bookings
+                    </Link>
+                    <button
+                      onClick={handleLogout}
+                      className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
+                    >
+                      Logout
+                    </button>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          ) : (
+            <>
+              <Link
+                to="/login"
+                className={`flex items-center gap-1 text-sm font-medium transition-colors ${
+                  scrolled ? "text-gray-800" : "text-white"
+                }`}
+              >
+                <LogIn size={16} /> Login
+              </Link>
+              <Link
+                to="/register"
+                className={`flex items-center gap-1 text-sm font-medium transition-colors ${
+                  scrolled ? "text-gray-800" : "text-white"
+                }`}
+              >
+                <UserPlus size={16} /> Sign Up
+              </Link>
+            </>
+          )}
         </div>
 
         {/* Mobile Actions */}
         <div className="flex items-center gap-4 md:hidden">
-          <Link
-            to="/login"
-            className={`${scrolled ? "text-gray-800" : "text-[#c78e44]"}`}
-          >
-            <LogIn size={22} />
-          </Link>
-          <Link
-            to="/register"
-            className={`${scrolled ? "text-gray-800" : "text-[#c78e44]"}`}
-          >
-            <UserPlus size={22} />
-          </Link>
+          {user ? (
+            <div className="relative" ref={dropdownRef}>
+              <button
+                onClick={() => setProfileOpen(!profileOpen)}
+                className={`${scrolled ? "text-gray-800" : "text-[#c78e44]"}`}
+              >
+                <User size={22} />
+              </button>
+
+              <AnimatePresence>
+                {profileOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ duration: 0.2 }}
+                    className="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-lg py-2 z-50"
+                  >
+
+                    <Link
+                      to="/favourites"
+                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      onClick={() => setProfileOpen(false)}
+                    >
+                      Favourites
+                    </Link>
+                    <Link
+                      to="/plans"
+                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      onClick={() => setProfileOpen(false)}
+                    >
+                      Plans
+                    </Link>
+                    <Link
+                      to="/bookings"
+                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      onClick={() => setProfileOpen(false)}
+                    >
+                      Bookings
+                    </Link>
+                    <button
+                      onClick={handleLogout}
+                      className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
+                    >
+                      Logout
+                    </button>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          ) : (
+            <>
+              <Link
+                to="/login"
+                className={`${scrolled ? "text-gray-800" : "text-[#c78e44]"}`}
+              >
+                <LogIn size={22} />
+              </Link>
+              <Link
+                to="/register"
+                className={`${scrolled ? "text-gray-800" : "text-[#c78e44]"}`}
+              >
+                <UserPlus size={22} />
+              </Link>
+            </>
+          )}
 
           <button
             className="transition"
             style={{ color: scrolled ? "#333" : "#c78e44" }}
             onClick={() => setIsOpen(!isOpen)}
-            onMouseEnter={(e) =>
-              (e.currentTarget.style.color = scrolled ? "#555" : "#b3783b")
-            }
-            onMouseLeave={(e) =>
-              (e.currentTarget.style.color = scrolled ? "#333" : "#c78e44")
-            }
           >
             {isOpen ? <X size={28} /> : <Menu size={28} />}
           </button>
         </div>
       </div>
 
-      {/* Mobile Dropdown */}
+      {/* Mobile Nav Links */}
       {isOpen && (
         <div className="md:hidden absolute top-full left-0 w-full bg-white flex flex-col py-4 px-6 space-y-4 shadow-md animate-slide-down">
           {navLinks.map((link) => (

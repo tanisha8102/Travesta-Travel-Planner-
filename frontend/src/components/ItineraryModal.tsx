@@ -1,5 +1,5 @@
-import { X, Info, Clock, Calendar } from "lucide-react";
-import { useEffect } from "react";
+import { X, Info, Clock, Calendar, Heart } from "lucide-react";
+import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 interface ItineraryModalProps {
@@ -15,14 +15,19 @@ interface ItineraryModalProps {
     details: string[];
     imageUrl: string;
   } | null;
+   isFavorite: boolean;
+  onToggleFavorite: () => void;
 }
 
-export default function ItineraryModal({ isOpen, onClose, trip }: ItineraryModalProps) {
+export default function ItineraryModal({ isOpen, onClose, trip ,isFavorite, onToggleFavorite}: ItineraryModalProps) {
+  
   useEffect(() => {
     document.body.style.overflow = isOpen ? "hidden" : "auto";
   }, [isOpen]);
 
   if (!trip) return null;
+
+
 
   return (
     <AnimatePresence>
@@ -44,12 +49,18 @@ export default function ItineraryModal({ isOpen, onClose, trip }: ItineraryModal
             onClick={(e) => e.stopPropagation()}
           >
             {/* Close Button */}
-            <button
-              onClick={onClose}
-              className="absolute top-3 right-3 text-gray-600 hover:text-red-500 transition-colors z-10"
-            >
-              <X size={22} />
-            </button>
+            <div className="absolute top-3 right-3 flex gap-3 z-10">
+              {/* Favorite Button */}
+             
+
+              {/* Close Button */}
+              <button
+                onClick={onClose}
+                className="text-gray-600 hover:text-red-500 transition-colors"
+              >
+                <X size={22} />
+              </button>
+            </div>
 
             {/* Header Image */}
             <div
@@ -63,7 +74,22 @@ export default function ItineraryModal({ isOpen, onClose, trip }: ItineraryModal
             <div className="flex-1 overflow-y-auto p-5 space-y-6 scrollbar-hide">
               {/* Title & Duration */}
               <div>
-                <h2 className="text-lg sm:text-xl font-bold text-gray-900">{trip.title}</h2>
+             {/* Title & Favorite */}
+<div className="flex items-center justify-between">
+  <h2 className="text-lg sm:text-xl font-bold text-gray-900">{trip.title}</h2>
+  <button
+    onClick={onToggleFavorite}
+    className="text-gray-600 hover:text-red-500 transition-colors"
+  >
+    <Heart
+      size={22}
+      fill={isFavorite ? "red" : "none"}
+      className={isFavorite ? "text-red-500" : "text-gray-600"}
+    />
+  </button>
+</div>
+
+
                 <div className="flex items-center gap-2 text-gray-500 mt-1 text-sm">
                   <Clock size={16} /> {trip.duration}
                 </div>

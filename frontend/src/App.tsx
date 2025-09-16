@@ -7,11 +7,10 @@ import FullDestinationPage from "./components/FullDestinationPage";
 import About from "./pages/About";
 import ContactPage from "./pages/Contact";
 import ScrollToTop from "./components/ScrollToTop";
+import LoginPage from "./pages/Login";
+import Register from "./pages/Register";
+import FavoritesPage from "./pages/FavoritesPage";
 
-// import Login from "./pages/Login";
-// import Register from "./pages/Register";
-// import Dashboard from "./pages/Dashboard";
-// import TripDetails from "./pages/TripDetails";
 
 
 
@@ -28,11 +27,10 @@ function App() {
             <Route path="/trip" element={<TripPage />} /> {/* ✅ Trip Page route */}
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<ContactPage />} />
-            {/* <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/trip/:id" element={<TripDetails />} /> */}
+            <Route path="/login" element={<LoginPage />} />
              <Route path="/destination" element={<FullDestinationPage  />} />
+              <Route path="/favourites" element={<FavoritesPage />} />
           </Routes>
         </main>
       </div>

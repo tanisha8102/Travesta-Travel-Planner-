@@ -6,10 +6,29 @@ import { motion } from "framer-motion";
 import type { Variants } from "framer-motion"; // ✅ type-only import
 import bgVideo from "../assets/bg.mp4";
 
-
 export default function Hero() {
   const [plan, setPlan] = useState<string>("");
   const navigate = useNavigate();
+
+  // Get user from localStorage
+ // Get user from localStorage
+const user = localStorage.getItem("user");
+let firstName: string = "";
+
+if (user) {
+  try {
+    const parsed = JSON.parse(user);
+    if (parsed?.name) {
+      const rawFirst = parsed.name.split(" ")[0]; // take first word
+      firstName =
+        rawFirst.charAt(0).toUpperCase() +
+        rawFirst.slice(1).toLowerCase(); // Camel case
+    }
+  } catch (e) {
+    console.error("Invalid user object in localStorage");
+  }
+}
+
 
   const handleSubmit = () => {
     if (!plan.trim()) return;
@@ -52,13 +71,13 @@ export default function Hero() {
       <div className="absolute inset-0 bg-black/40 -z-10 pointer-events-none"></div>
 
       {/* Greeting */}
-      <motion.p
-        className="text-gray-200 mb-2 text-sm md:text-base"
-        variants={fadeUp}
-        transition={{ duration: 0.8, ease: "easeOut" }}
-      >
-        Welcome back, Faris!
-      </motion.p>
+     <motion.p
+  className="text-gray-200 mb-2 text-sm md:text-base"
+  variants={fadeUp}
+  transition={{ duration: 0.8, ease: "easeOut" }}
+>
+  Welcome back{firstName ? `, ${firstName}!` : "!"}
+</motion.p>
 
       {/* Heading */}
       <motion.h1
