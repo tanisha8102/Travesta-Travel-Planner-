@@ -5,7 +5,7 @@ import LatestNews from '../components/LatestNews';
 import InstagramSection from '../components/InstagramSection';
 import TravelFooterSection from '../components/Footer';
 import TrendingDestinations from '../components/TrendingDestination';
-import BackButton from "../components/BackButton";
+
 
 export default function About() {
   const HeroImage = "https://images.unsplash.com/photo-1705383852028-597b0f37b16f?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDMzfHx8ZW58MHx8fHx8";

@@ -56,7 +56,6 @@ export default function TripPage() {
   const [loading, setLoading] = useState(true);
   const [searchValue, setSearchValue] = useState(rawQuery);
   const [favorites, setFavorites] = useState<{ [key: string]: boolean }>({});
-  const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [toast, setToast] = useState<{ message: string; type: "success" | "info" | "error" } | null>(null);
 
 

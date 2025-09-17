@@ -114,14 +114,14 @@ export default function Navbar() {
                       Favourites
                     </Link>
                     <Link
-                      to="/plans"
+                      to="#"
                       className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                       onClick={() => setProfileOpen(false)}
                     >
                       Plans
                     </Link>
                     <Link
-                      to="/bookings"
+                      to="#"
                       className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                       onClick={() => setProfileOpen(false)}
                     >
@@ -188,14 +188,14 @@ export default function Navbar() {
                       Favourites
                     </Link>
                     <Link
-                      to="/plans"
+                      to="#"
                       className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                       onClick={() => setProfileOpen(false)}
                     >
                       Plans
                     </Link>
                     <Link
-                      to="/bookings"
+                      to="#"
                       className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                       onClick={() => setProfileOpen(false)}
                     >
