@@ -31,7 +31,7 @@ const InstagramSection: React.FC = () => {
             <p className="text-xs sm:text-sm text-yellow-600 font-medium">
               Instagram
             </p>
-            <h2 className="text-lg sm:text-2xl md:text-3xl font-bold text-gray-800">
+            <h2 className="text-lg sm:text-2xl md:text-3xl font-bold text-gray-800" style={{ fontFamily: "Abril Fatface, serif" }}>
               Travesta
             </h2>
           </div>

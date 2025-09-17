@@ -95,11 +95,11 @@ const handleNextDesktop = () => {
   return (
     <section className="px-6 py-16 bg-white">
       <div className="max-w-6xl mx-auto text-center">
-        <h2 className="text-3xl font-bold mb-6">
+        <h2 className="text-3xl md:text-4xl font-bold mb-8" style={{ fontFamily: "Abril Fatface, serif" }}>
           Our Tour Package <span className="text-gray-800">Ensures A Seamless</span>
           <br />
           <span className="text-gray-800">And Memorable</span>{" "}
-        <span className="text-[#c78e44]">Adventure.</span>
+        <span className="text-[#c78e44] font-serif italic">Adventure.</span>
 
         </h2>
 

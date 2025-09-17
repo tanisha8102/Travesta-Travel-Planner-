@@ -16,8 +16,7 @@ import {
 
 const heroImages = [
   "https://images.unsplash.com/photo-1584921029340-b86735de3970?q=80&w=1600&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=1600&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=1600&auto=format&fit=crop",
+
 ];
 
 export default function ContactPage() {

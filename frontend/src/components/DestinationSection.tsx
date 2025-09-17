@@ -78,7 +78,7 @@ export default function DestinationSection() {
           className="flex items-center justify-between mb-8"
           variants={card}
         >
-          <h2 className="text-2xl font-semibold text-gray-900">
+          <h2 className="text-3xl md:text-4xl font-bold mb-8" style={{ fontFamily: "Abril Fatface, serif" }}>
             Where you should go next
           </h2>
           <Link

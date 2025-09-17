@@ -34,7 +34,7 @@ export default function LatestNews() {
           <p className="text-[#c78e44] text-sm mb-1">Latest News</p>
           <h2
             className="text-3xl md:text-4xl font-bold"
-            style={{ fontFamily: 'Abril Fatface, serif' }}
+            style={{ fontFamily: "Abril Fatface, serif" }}
           >
             Learn More <span className="font-semibold">About Tours</span>
           </h2>

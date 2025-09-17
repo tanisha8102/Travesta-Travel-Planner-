@@ -59,7 +59,7 @@ export default function Navbar() {
         scrolled ? "bg-white shadow-md" : "bg-transparent"
       }`}
     >
-      <div className="max-w-7xl mx-auto flex justify-between items-center px-6 py-4">
+      <div className="max-w-7xl mx-auto flex justify-between items-center px-6">
         {/* Logo */}
         <Link to="/">
           <img src={logo} alt="Travesta Logo" className="h-16 w-auto" />
@@ -71,7 +71,7 @@ export default function Navbar() {
             <Link
               key={link.name}
               to={link.path}
-              className={`text-sm font-bold relative px-2 py-1 transition-colors ${
+              className={`text-md font-semibold relative px-2 py-1 transition-colors ${
                 scrolled ? "text-gray-800" : "text-white"
               }`}
               style={{

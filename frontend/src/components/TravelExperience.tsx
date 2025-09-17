@@ -76,10 +76,10 @@ const TravelExperience: FC = () => {
 
       {/* Right Side - Features */}
       <div className="w-full lg:w-1/2">
-        <p className="uppercase text-sm tracking-widest text-[#c78e44] font-semibold">
+        <p className="uppercase text-sm tracking-widest text-[#c78e44] font-semibold mb-2">
           For hassle-free travel experiences
         </p>
-        <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-8">
+        <h2 className="text-3xl md:text-4xl font-bold mb-8" style={{ fontFamily: "Abril Fatface, serif" }}>
           All-Inclusive Travel Experience
         </h2>
 

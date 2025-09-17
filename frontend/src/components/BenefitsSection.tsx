@@ -5,7 +5,7 @@ export default function BenefitsSection() {
     <section className="px-4 sm:px-8 mt-10">
       <div className="rounded-2xl py-12 px-6 sm:px-12 text-center" style={{ backgroundColor: '#f0e8dc' }}>
         {/* Title */}
-        <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-10">
+        <h2 className="text-3xl md:text-4xl font-bold mb-8" style={{ fontFamily: "Abril Fatface, serif" }}>
           Experience the Benefits of Travesta
         </h2>
 

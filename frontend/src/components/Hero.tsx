@@ -76,7 +76,7 @@ if (user) {
   variants={fadeUp}
   transition={{ duration: 0.8, ease: "easeOut" }}
 >
-  Welcome back{firstName ? `, ${firstName}!` : "!"}
+  Welcome {firstName ? `, ${firstName}!` : "!"}
 </motion.p>
 
       {/* Heading */}
@@ -84,6 +84,7 @@ if (user) {
         className="text-2xl sm:text-3xl md:text-4xl font-bold text-white leading-snug max-w-xl md:max-w-2xl mx-auto font-sans px-2"
         variants={fadeUp}
         transition={{ duration: 0.8, ease: "easeOut" }}
+        style={{ fontFamily: "Abril Fatface, serif" }}
       >
         Tell us your{" "}
         <span className="font-serif italic" style={{ color: "#e3a857" }}>

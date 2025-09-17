@@ -67,7 +67,7 @@ export default function ClientFeedback() {
         <p className="uppercase text-black text-sm sm:text-base md:text-lg">
           Real Stories of Our Clients
         </p>
-        <h2 className="font-bold text-2xl sm:text-3xl md:text-4xl text-black">
+        <h2 className="text-3xl md:text-4xl font-bold mb-8 text-black" style={{ fontFamily: "Abril Fatface, serif" }}>
           Trusted Feedback From Satisfied Clients
         </h2>
       </div>

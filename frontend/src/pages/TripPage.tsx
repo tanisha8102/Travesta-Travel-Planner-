@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import { Clock, Search, Heart } from "lucide-react";
 import ItineraryModal from "../components/ItineraryModal";
 import Groq from "groq-sdk";
+import Toast from "../components/Toast";
+import { AnimatePresence } from "framer-motion";
 
 const PEXELS_API_KEY = import.meta.env.VITE_PEXELS_API_KEY as string;
 
@@ -54,31 +56,38 @@ export default function TripPage() {
   const [loading, setLoading] = useState(true);
   const [searchValue, setSearchValue] = useState(rawQuery);
   const [favorites, setFavorites] = useState<{ [key: string]: boolean }>({});
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const [toast, setToast] = useState<{ message: string; type: "success" | "info" | "error" } | null>(null);
+
 
   const token = localStorage.getItem("token"); // JWT token for auth
 
   useEffect(() => {
-  const fetchFavoritesAndMark = async () => {
-    if (!token) return;
+  if (!token) return;
 
+  const fetchFavoritesAndMark = async () => {
     try {
       const res = await fetch(`${import.meta.env.VITE_API_URL}/api/favorites`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      if (res.ok) {
-        const data: Itinerary[] = await res.json();
-        const favMap: { [key: string]: boolean } = {};
-        data.forEach((item) => (favMap[item.title] = true));
 
-        setFavorites(favMap);
-      }
+      if (!res.ok) return;
+
+      const data: Itinerary[] = await res.json();
+      const favMap = data.reduce<{ [key: string]: boolean }>(
+        (acc, item) => ({ ...acc, [item.title]: true }),
+        {}
+      );
+
+      setFavorites(favMap);
     } catch (err) {
       console.error("Error fetching favorites:", err);
     }
   };
 
   fetchFavoritesAndMark();
-}, [itinerary]); // ✅ run after itinerary is loaded
+}, [token, itinerary]); // ✅ depends on token + itinerary
+
 
 
   // Fetch user's favorites from backend
@@ -104,9 +113,13 @@ export default function TripPage() {
   }, []);
 
   // Toggle favorite via backend
-  const toggleFavorite = async (trip: Itinerary) => {
+const toggleFavorite = async (trip: Itinerary) => {
   if (!token) {
-    alert("Please login to save favorites");
+    setToast({
+      message:
+        'Please <a href="/login" class="underline text-blue-600 hover:text-blue-800">login</a> to save trips ❤️',
+      type: "info",
+    });
     return;
   }
 
@@ -125,9 +138,19 @@ export default function TripPage() {
       const favMap: { [key: string]: boolean } = {};
       data.favorites.forEach((item: Itinerary) => (favMap[item.title] = true));
       setFavorites(favMap);
+
+      const isRemoving = favorites[trip.title]; // already fav → removing
+      setToast({
+        message: isRemoving ? "Removed from favorites 💔" : "Added to favorites ❤️",
+        type: isRemoving ? "error" : "success",
+      });
     }
   } catch (err) {
     console.error("Error toggling favorite:", err);
+    setToast({
+      message: "Something went wrong. Please try again.",
+      type: "error",
+    });
   }
 };
 
@@ -328,6 +351,20 @@ export default function TripPage() {
         isFavorite={selectedTrip ? favorites[selectedTrip.title] || false : false}
         onToggleFavorite={() => selectedTrip && toggleFavorite(selectedTrip)}
       />
+
+    <AnimatePresence>
+  {toast && (
+    <Toast
+      message={toast.message}
+      type={toast.type}  // ✅ pass type
+      onClose={() => setToast(null)}
+    />
+  )}
+</AnimatePresence>
+
+
+
     </div>
+    
   );
 }

@@ -17,10 +17,10 @@ export default function TravelFooterSection() {
           
           {/* Content */}
           <div className="relative z-10 px-4 sm:px-6 max-w-2xl text-white">
-            <h1 className="text-2xl sm:text-4xl font-bold mb-3">
+            <h1 className="text-2xl sm:text-4xl font-bold mb-3" style={{ fontFamily: "Abril Fatface, serif" }}>
               Find your zen <br /> in travel with Travesta
             </h1>
-            <p className="mb-6 text-sm sm:text-base text-gray-200">
+            <p className="mb-6 text-sm sm:text-base text-gray-200" >
               Book now and set off on your next adventure with confidence
             </p>
             <button className="px-5 py-2 bg-white text-black font-semibold rounded-full shadow hover:bg-gray-100 transition">
@@ -36,7 +36,7 @@ export default function TravelFooterSection() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-10">
             {/* Company */}
             <div>
-              <h3 className="font-semibold text-gray-900 mb-4">Company</h3>
+              <h3  className="font-semibold text-gray-900 mb-4">Company</h3>
               <ul className="space-y-2 text-sm text-gray-600">
                 <li><a href="#" className="hover:text-gray-900">About us</a></li>
                 <li><a href="#" className="hover:text-gray-900">Careers</a></li>
@@ -84,14 +84,14 @@ export default function TravelFooterSection() {
 
             {/* Logo & Social */}
             <div className="flex flex-col items-start lg:items-end justify-between">
-              <h2 className="text-xl font-bold text-gray-900 mb-4">Travesta</h2>
+              <h2 style={{ fontFamily: "Abril Fatface, serif" }} className="text-xl font-bold text-gray-900 mb-4">Travesta</h2>
               <div className="flex space-x-4 mb-4">
                 <a href="#" className="text-gray-500 hover:text-gray-900"><Instagram size={20} /></a>
                 <a href="#" className="text-gray-500 hover:text-gray-900"><Facebook size={20} /></a>
                 <a href="#" className="text-gray-500 hover:text-gray-900"><Twitter size={20} /></a>
                 <a href="#" className="text-gray-500 hover:text-gray-900"><Youtube size={20} /></a>
               </div>
-              <p className="text-xs text-gray-500">© 2024 TRAVESTA INC. All Rights Reserved</p>
+              <p  className="text-xs text-gray-500">© 2024 TRAVESTA INC. All Rights Reserved</p>
             </div>
           </div>
         </div>

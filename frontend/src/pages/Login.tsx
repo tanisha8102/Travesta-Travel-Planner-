@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { loginUser } from "../apis/auth";
-import type { LoginData } from "../apis/auth"; // ✅ type-only import
+import type { LoginData } from "../apis/auth";
+
+import logo from "../assets/logo.png"; // ✅ your logo file
 
 const LoginPage: React.FC = () => {
   const navigate = useNavigate();
@@ -21,13 +23,12 @@ const LoginPage: React.FC = () => {
     try {
       const result = await loginUser(form);
 
-      // ✅ Save user & token in localStorage
       localStorage.setItem("token", result.token);
       if (result.user) {
         localStorage.setItem("user", JSON.stringify(result.user));
       }
 
-      navigate("/"); // redirect home
+      navigate("/");
     } catch (err: any) {
       setError(err.message);
     } finally {
@@ -37,31 +38,37 @@ const LoginPage: React.FC = () => {
 
   return (
     <motion.div
-      className="flex h-screen font-sans"
+      className="relative flex flex-col md:flex-row h-screen font-sans"
       initial={{ opacity: 0, rotateY: -90 }}
       animate={{ opacity: 1, rotateY: 0 }}
       transition={{ duration: 1.2, ease: "easeInOut" }}
       style={{ transformStyle: "preserve-3d" }}
     >
-      {/* Left Side - Image */}
+      {/* Left Side - Image with logo */}
       <div
-        className="hidden md:flex md:w-1/2 bg-cover bg-center relative"
+        className="relative w-full md:w-1/2 h-1/3 md:h-auto bg-cover bg-center"
         style={{
           backgroundImage:
             "url('https://solarpoweredblonde.com/wp-content/uploads/2020/09/Travel-photography-tips-and-ideas-2_0000_Travel-Photography-tips-and-ideas-blogg.jpg')",
         }}
-      ></div>
+      >
+        {/* ✅ Logo in corner */}
+        <Link to="/" className="absolute top-6 left-6">
+          <img src={logo} alt="Logo" className="h-12 md:h-14" />
+        </Link>
+      </div>
 
       {/* Right Side - Form */}
-      <div className="w-full md:w-1/2 flex items-center justify-center p-6">
-        <div className="max-w-md w-full">
-          <h2 className="text-2xl font-bold mb-2">Login</h2>
-          <p className="text-sm text-gray-600 mb-6">
-            Enter your credentials to continue your journey!
+      <div className="w-full md:w-1/2 flex items-center justify-center bg-white p-8 relative top-10 md:top-0">
+        <div className="max-w-sm w-full text-center">
+          {/* Heading */}
+          <h2 className="text-3xl font-bold text-[#c78e44] mb-2">Welcome</h2>
+          <p className="text-gray-600 text-sm mb-8">
+            Login in to your account to continue
           </p>
 
-          <form className="space-y-4" onSubmit={handleSubmit}>
-            {error && <p className="text-red-500 text-sm mb-2">{error}</p>}
+          <form onSubmit={handleSubmit} className="space-y-4">
+            {error && <p className="text-red-500 text-sm">{error}</p>}
 
             <input
               type="email"
@@ -69,7 +76,7 @@ const LoginPage: React.FC = () => {
               placeholder="Email"
               value={form.email}
               onChange={handleChange}
-              className="w-full px-3 py-2 border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-4 py-3 rounded-full bg-[#f7f3ef] text-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#c78e44]"
             />
 
             <input
@@ -78,32 +85,44 @@ const LoginPage: React.FC = () => {
               placeholder="Password"
               value={form.password}
               onChange={handleChange}
-              className="w-full px-3 py-2 border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-4 py-3 rounded-full bg-[#f7f3ef] text-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#c78e44]"
             />
 
-            <div className="flex items-center justify-between text-sm">
-              <label className="flex items-center space-x-2">
-                <input type="checkbox" className="accent-blue-600" />
-                <span className="text-gray-600">Remember me</span>
-              </label>
-              <a href="#" className="text-blue-600 underline">
-                Forgot Password?
+            <div className="flex justify-end">
+              <a href="#" className="text-xs text-gray-500 hover:text-black mt-1">
+                forgot your password?
               </a>
             </div>
 
-            <button
+            <motion.button
               type="submit"
               disabled={loading}
-              className="w-full bg-black text-white py-2 rounded-md transition hover:bg-[#c78e44]"
+              className="relative w-full py-3 rounded-full bg-black text-white font-medium overflow-hidden"
+              initial="initial"
+              whileHover="hover"
+              variants={{}}
             >
-              {loading ? "Signing In..." : "Sign In"}
-            </button>
+              {/* Golden shutter overlay */}
+              <motion.span
+                variants={{
+                  initial: { x: "-100%" },
+                  hover: { x: "0%" },
+                }}
+                transition={{ duration: 0.7, ease: "easeInOut" }}
+                className="absolute inset-0 bg-[#c78e44] z-0"
+              />
+
+              {/* Button text */}
+              <span className="relative z-10">
+                {loading ? "Signing In..." : "LOG IN"}
+              </span>
+            </motion.button>
           </form>
 
-          <p className="text-center text-sm text-gray-600 mt-4">
+          <p className="text-gray-600 text-sm mt-6">
             Don’t have an account?{" "}
-            <a href="/register" className="text-blue-600 underline">
-              Register
+            <a href="/register" className="text-[#c78e44] hover:underline">
+              Sign Up
             </a>
           </p>
         </div>

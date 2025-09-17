@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { Clock, Heart } from "lucide-react";
 import ItineraryModal from "../components/ItineraryModal";
+import BackButton from "../components/BackButton";
 
 interface Itinerary {
   days: number;
@@ -74,9 +75,26 @@ export default function FavoritesPage() {
   };
 
   return (
-    <div className="min-h-screen w-full bg-gradient-to-br from-[#fdf6ef] to-[#f9e9d7] py-12">
+    <div className="min-h-screen w-full bg-gradient-to-br from-[#fdf6ef] to-[#f9e9d7] pt-20 pb-12">
+    
+
       <div className="max-w-6xl mx-auto px-4">
-        <h1 className="text-3xl md:text-4xl font-bold mb-10 text-gray-900 text-center">My Favorites</h1>
+        <div className="max-w-6xl mx-auto px-4 mb-10 flex items-center justify-between">
+  {/* Back Button on the left */}
+  <BackButton />
+
+  {/* Heading in the center */}
+  <h1
+    className="text-3xl md:text-4xl font-bold text-gray-900 flex-1 text-center"
+    style={{ fontFamily: "Abril Fatface, serif" }}
+  >
+    My Favorites
+  </h1>
+
+  {/* Empty spacer to balance layout */}
+  <div className="w-[60px]" /> 
+</div>
+
 
         {favorites.length === 0 ? (
           <div className="flex flex-col items-center justify-center mt-20 text-center text-gray-600">

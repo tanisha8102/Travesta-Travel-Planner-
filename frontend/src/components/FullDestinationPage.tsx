@@ -1,17 +1,28 @@
 import { Calendar, DollarSign } from "lucide-react";
 import { destinations } from "../data/destinations.ts"; // Correct named import
+import BackButton from "../components/BackButton.tsx";
 
 export default function FullDestinationPage() {
   return (
-    <section className="px-4 py-12 pt-40 ">
+    <section className="px-4 py-16 pt-20 ">
 
       <div className="max-w-6xl mx-auto">
         {/* Header */}
-        <div className="flex items-center justify-between mb-10">
-          <h2 className="text-3xl sm:text-4xl font-bold text-gray-900">
-            Explore Our Destinations
-          </h2>
-        </div>
+        <div className="flex items-center justify-between mb-10 relative">
+  {/* Back Button on the left */}
+  <div className="absolute left-0">
+    <BackButton />
+  </div>
+
+  {/* Heading perfectly centered */}
+  <h2
+    style={{ fontFamily: "Abril Fatface, serif" }}
+    className="text-3xl sm:text-4xl font-bold text-gray-900 text-center w-full"
+  >
+    Explore Our Destinations
+  </h2>
+</div>
+
 
         {/* Cards */}
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">

@@ -41,7 +41,7 @@ export default function WhyChooseSection() {
 
         {/* Right Side Text */}
        <div>
-  <h2 className="text-3xl font-bold text-gray-900 mb-4">
+  <h2 className="text-3xl md:text-4xl font-bold mb-8" style={{ fontFamily: "Abril Fatface, serif" }}>
     Why Choose <span className="font-serif italic" style={{ color: '#c78e44' }}>Travesta</span>
   </h2>
   <p className="text-gray-600 leading-relaxed mb-6">
