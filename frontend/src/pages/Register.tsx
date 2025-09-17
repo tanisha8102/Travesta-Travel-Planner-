@@ -154,7 +154,7 @@ const handleSubmit = async (e: React.FormEvent) => {
           {/* Sign in */}
           <p className="text-center text-sm text-gray-600 mt-4">
             Already have an account?{" "}
-            <a href="#" className="text-blue-600 underline">
+            <a href="/login" className="text-blue-600 underline">
               Sign in
             </a>
           </p>
