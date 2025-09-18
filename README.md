@@ -35,5 +35,3 @@ It showcases destinations, travel blogs, pricing plans, and an easy-to-use syste
 
 ---
 
-## 📂 Project Structure
-
