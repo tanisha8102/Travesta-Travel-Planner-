@@ -21,7 +21,6 @@ It showcases destinations, travel blogs, pricing plans, and an easy-to-use syste
 
 👉 [Live Demo](https://travesta-travel-planner.vercel.app/)  
 
-*(Replace the above with your deployed demo link — e.g., Netlify, Vercel, or GitHub Pages.)*
 
 ---
 
